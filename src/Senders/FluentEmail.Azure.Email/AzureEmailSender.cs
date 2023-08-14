@@ -96,7 +96,9 @@ public class AzureEmailSender : ISender
         
         var emailRecipients = new EmailRecipients(toRecipients, ccRecipients, bccRecipients);
 
-        var sender = $"{email.Data.FromAddress.Name} <{email.Data.FromAddress.EmailAddress}>";
+        // Azure Email Sender doesn't allow us to specify the 'from' display name (instead the sender name is defined in the blade configuration)
+        // var sender = $"{email.Data.FromAddress.Name} <{email.Data.FromAddress.EmailAddress}>";
+        var sender = email.Data.FromAddress.EmailAddress;
         var emailMessage = new EmailMessage(sender, emailContent, emailRecipients);
         
         if (email.Data.ReplyToAddresses.Any(a => !string.IsNullOrWhiteSpace(a.EmailAddress)))
